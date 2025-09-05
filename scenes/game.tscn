@@ -1,0 +1,82 @@
+[gd_scene load_steps=3 format=3 uid="uid://djveq3biqtecu"]
+
+[ext_resource type="Script" uid="uid://4i7ypyd47lgq" path="res://scripts/game.gd" id="1_uwrxv"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_uwrxv"]
+font_size = 60
+
+[node name="Game" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_uwrxv")
+
+[node name="HSplitContainer" type="HSplitContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+split_offset = 1280
+dragging_enabled = false
+dragger_visibility = 2
+
+[node name="ColorRect" type="ColorRect" parent="HSplitContainer"]
+custom_minimum_size = Vector2(960, 0)
+layout_mode = 2
+color = Color(0.493545, 0.493546, 0.493546, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 75
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/ColorRect/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer/ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="AppleLabel" type="Label" parent="HSplitContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "APPLES"
+label_settings = SubResource("LabelSettings_uwrxv")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MoneyLabel" type="Label" parent="HSplitContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "MONEY"
+label_settings = SubResource("LabelSettings_uwrxv")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="HSplitContainer/ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="AppleButton" type="Button" parent="HSplitContainer/ColorRect/MarginContainer/VBoxContainer/CenterContainer"]
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 2
+focus_mode = 0
+
+[node name="ColorRect2" type="ColorRect" parent="HSplitContainer"]
+layout_mode = 2
+
+[connection signal="pressed" from="HSplitContainer/ColorRect/MarginContainer/VBoxContainer/CenterContainer/AppleButton" to="." method="harvest"]
