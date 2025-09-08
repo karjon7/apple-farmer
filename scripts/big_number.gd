@@ -233,21 +233,8 @@ func is_negative() -> bool:
 
 #String Stuff
 func to_scientific_string(max_decimals: int = 3, max_exponents: int = 3) -> String:
-	max_decimals = maxi(max_decimals, 0)
-	max_exponents = maxi(max_exponents, 0)
-	
-	var mantissa_text: String = str(mantissa)
-	var sign: String = "-" if mantissa_text.begins_with("-") else ""
-	
-	if not sign.is_empty(): mantissa_text = mantissa_text.erase(0)
-	
-	var integer_part: String = mantissa_text.get_slice(".", 0)
-	var decimal_part: String = mantissa_text.get_slice(".", 1)
-	
-	mantissa_text = integer_part + "." + decimal_part.substr(0, max_decimals) \
-		if max_decimals > 0 else str(floor(mantissa))
-	
-	return sign + mantissa_text + "e" + NumberUtilities.compact_format(exponent, max_exponents, true)
+	return NumberUtilities.scientific_format_string_number(
+		to_full_string(max_decimals), max_decimals, false, max_exponents)
 
 
 func to_short_string(max_digits: int = 4, max_decimals: int = 3, abbreviate: bool = true, fractional_decimals: bool = false) -> String:

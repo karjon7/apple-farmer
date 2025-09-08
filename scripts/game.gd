@@ -9,7 +9,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	apple_label.text = GameManager.get_apples().to_short_string(4)
+	apple_label.text = GameManager.get_apples().to_short_string()
 	
 	var money_text: String = GameManager.get_money().absolute().to_short_string() \
 		if GameManager.get_money().is_greater_than_equal_to(BigNumber.new(1000)) \

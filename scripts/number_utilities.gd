@@ -44,6 +44,7 @@ static func format(number: float, decimals: int = 0, separator: String = ",") ->
 	return format_string_number(str(number), decimals, separator)
 
 
+#FIXME: UNOPTIMIZED AF FIX ASAP, GODOT LOOPS ARE SLOWWW
 static func format_string_number(str_number: String, decimals: int = 0, separator: String = ",") -> String:
 	decimals = maxi(decimals, 0)
 	
@@ -94,7 +95,7 @@ static func compact_format_string_number(str_number: String, max_digits: int = 4
 	var notation: Notation = NOTATION_LOOK_UP[integer_parts.size() - 1] if integer_parts.size() - 1 < NOTATION_LOOK_UP.size() else null
 	var return_text: String = ""
 	
-	if not notation: assert(false)
+	if not notation: return scientific_format_string_number(str_number, max_digits - 1, true, max_digits - 1)
 	
 	var new_integer: String = integer_parts[0]
 	var new_decimal: String
@@ -116,6 +117,35 @@ static func compact_format_string_number(str_number: String, max_digits: int = 4
 	
 	return "-" + return_text if is_negative_number else return_text
 	
+
+
+static func scientific_format(value: float, max_decimals: int = 3, \
+	pad_decimals: bool = false, max_exponents: int = 3) -> String:
+	
+	return scientific_format_string_number(str(value), max_decimals, pad_decimals, max_exponents)
+
+
+static func scientific_format_string_number(str_number: String, max_decimals: int = 3, \
+	pad_decimals: bool = false, max_exponents: int = 3) -> String:
+	
+	max_decimals = maxi(max_decimals, 1)
+	max_exponents = maxi(max_exponents, 1)
+	str_number = format_string_number(str_number, max_decimals)
+	
+	var number_sign: String = "-" if str_number.begins_with("-") else ""
+	if not number_sign.is_empty(): str_number = str_number.erase(0)
+	
+	#Remove commas and leading and trailing decimal 0s
+	if str_number.contains("."): str_number = str_number.lstrip("0").rstrip("0") 
+	str_number = str_number.replace(",", "")
+	
+	var original_decimal_index: int = str_number.find(".")
+	var exponent: int = original_decimal_index - 1
+	var mantissa: String = str_number.replace(".", "").insert(1, ".").substr(0, max_decimals + 2) #max_decimals + integer part and decimal
+	
+	mantissa = mantissa.rpad(max_decimals + 2, "0") if pad_decimals else mantissa.rstrip("0").rpad(3, "0")
+	
+	return number_sign + mantissa + "e" + compact_format(exponent, max_exponents)
 
 
 #Really made a inner class cus wasnt getting auto complete on the dictionary lol
