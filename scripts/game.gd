@@ -9,13 +9,13 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	apple_label.text = SaveManager.get_apples().to_short_string()
+	apple_label.text = GameManager.get_apples().to_short_string(4)
 	
-	var money_text: String = SaveManager.get_money().absolute().to_short_string() \
-		if SaveManager.get_money().is_greater_than_equal_to(BigNumber.new(1000)) \
-		else SaveManager.get_money().absolute().to_full_string(2)
+	var money_text: String = GameManager.get_money().absolute().to_short_string() \
+		if GameManager.get_money().is_greater_than_equal_to(BigNumber.new(1000)) \
+		else GameManager.get_money().absolute().to_full_string(2)
 	
-	money_label.text = "$" + money_text if not SaveManager.get_money().is_negative() else "-$" + money_text
+	money_label.text = "$" + money_text if not GameManager.get_money().is_negative() else "-$" + money_text
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -25,7 +25,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func harvest() -> void:
-	GameManager.add_apples(BigNumber.new(1))
+	GameManager.harvest_apples(BigNumber.new(1))
 
 
 func sell() -> void:
