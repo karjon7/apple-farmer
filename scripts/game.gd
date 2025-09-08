@@ -9,10 +9,13 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	apple_label.text = SaveManager.get_apples().to_short_string(0)
+	apple_label.text = SaveManager.get_apples().to_short_string()
 	
-	var money_prefix: String = "$%s" if not SaveManager.get_money().is_negative() else "-$%s"
-	money_label.text = money_prefix % SaveManager.get_money().absolute().to_short_string(2)
+	var money_text: String = SaveManager.get_money().absolute().to_short_string() \
+		if SaveManager.get_money().is_greater_than_equal_to(BigNumber.new(1000)) \
+		else SaveManager.get_money().absolute().to_full_string(2)
+	
+	money_label.text = "$" + money_text if not SaveManager.get_money().is_negative() else "-$" + money_text
 
 
 func _unhandled_input(event: InputEvent) -> void:

@@ -232,58 +232,45 @@ func is_negative() -> bool:
 
 
 #String Stuff
-#FIXME: Gonna need a NumberUtils class to also suffix exponents and other non-BigNumbers
-
-func to_scientific_string(max_exponents: int) -> String:
-	return str(mantissa).rstrip("0") + "e" + str(exponent)
-
-
-func to_short_string(decimals: int) -> String:
-	var suffixes: Array[String] = ["", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc"]
+func to_scientific_string(max_decimals: int = 3, max_exponents: int = 3) -> String:
+	max_decimals = maxi(max_decimals, 0)
+	max_exponents = maxi(max_exponents, 0)
 	
-	if mantissa == 0.0:
-		return "0".pad_decimals(decimals)
+	var mantissa_text: String = str(mantissa)
+	var sign: String = "-" if mantissa_text.begins_with("-") else ""
 	
-	var groups: int = exponent / 3
-	var remainder_exp: int = exponent % 3
-	var adjusted_mantissa: float = mantissa * pow(10.0, float(remainder_exp))
+	if not sign.is_empty(): mantissa_text = mantissa_text.erase(0)
 	
-	#Handle very small numbers with negative exponents
-	if exponent < 0:
-		var value: float = mantissa * pow(10.0, float(exponent))
-		return str(floor(value * pow(10.0, decimals)) / pow(10.0, decimals)).pad_decimals(decimals)
+	var integer_part: String = mantissa_text.get_slice(".", 0)
+	var decimal_part: String = mantissa_text.get_slice(".", 1)
 	
-	#Apply suffix if within range
-	if groups < suffixes.size():
-		var factor: float = pow(10.0, decimals)
-		var floored: float = floor(adjusted_mantissa * factor) / factor
-		return str(floored).pad_decimals(decimals) + suffixes[groups]
+	mantissa_text = integer_part + "." + decimal_part.substr(0, max_decimals) \
+		if max_decimals > 0 else str(floor(mantissa))
 	
-	#Fallback to scientific notation
-	return to_scientific_string(decimals)
+	return sign + mantissa_text + "e" + NumberUtilities.compact_format(exponent, max_exponents, true)
 
 
-func to_full_string(decimals: int) -> String:
+func to_short_string(max_digits: int = 4, max_decimals: int = 3, abbreviate: bool = true, fractional_decimals: bool = false) -> String:
+	
+	return NumberUtilities.compact_format_string_number(to_full_string(), max_digits, abbreviate)
+
+
+func to_full_string(decimals: int = 3) -> String:
+	decimals = maxi(decimals, 0)
+	
 	var mantissa_string: String = str(mantissa)
-	var string_sign: String = "-" if mantissa_string.begins_with("-") else ""
-	var decimal_start_index: int = mantissa_string.find(".") if mantissa_string.contains(".") else mantissa_string.length()
-	var beginning_part: String = mantissa_string.substr(0, decimal_start_index)
-	var ending_part: String = mantissa_string.substr(decimal_start_index + 1)
+	var is_negative_number: bool = mantissa_string.begins_with("-")
 	
-	if not string_sign.is_empty(): beginning_part = beginning_part.substr(1)
+	if is_negative_number: mantissa_string = mantissa_string.erase(0)
+	mantissa_string = mantissa_string.lpad(mantissa_string.length() - exponent, "0")
 	
-	#Bro this is prob goofy asl and prob not optimized but idc anymore
-	for x in absi(exponent):
-		var is_exponents_negative: bool = signi(exponent) == -1
-		
-		if is_exponents_negative:
-			ending_part = beginning_part[beginning_part.length() - 1] + ending_part \
-				if not beginning_part.is_empty() else "0" + ending_part
-			beginning_part = beginning_part.substr(0, beginning_part.length() - 1) 
-		else:
-			beginning_part = beginning_part + ending_part[0] \
-				if not ending_part.is_empty() else beginning_part + "0"
-			ending_part = ending_part.substr(1)
+	var decimal_start_index: int = mantissa_string.find(".") \
+		if mantissa_string.contains(".") else mantissa_string.length()
+	var decimal_end_index: int = decimal_start_index + exponent
 	
-	return string_sign + beginning_part.lpad(1, "0") + "." + ending_part.substr(0, decimals).rstrip("0") \
-		if decimals > 0 else string_sign + beginning_part.pad_zeros(1)
+	mantissa_string = mantissa_string.erase(decimal_start_index)
+	mantissa_string = mantissa_string.rpad(decimal_end_index + decimals, "0")
+	mantissa_string = mantissa_string.insert(decimal_end_index, ".")
+	if is_negative_number: mantissa_string = mantissa_string.insert(0, "-")
+	
+	return NumberUtilities.format_string_number(mantissa_string, decimals)
