@@ -1,6 +1,8 @@
 extends RefCounted
 class_name BigNumber
 
+signal updated
+
 var mantissa: float = 0.0
 var exponent: int = 0
 
@@ -157,10 +159,13 @@ func plus(other: BigNumber) -> BigNumber:
 
 
 func plus_equals(other: BigNumber) -> BigNumber:
+	updated.emit()
 	var result: BigNumber = add(self, other)
 	
 	mantissa = result.mantissa
 	exponent = result.exponent
+	
+	updated.emit()
 	return self
 
 
@@ -173,6 +178,8 @@ func minus_equals(other: BigNumber) -> BigNumber:
 	
 	mantissa = result.mantissa
 	exponent = result.exponent
+	
+	updated.emit()
 	return self
 
 
@@ -185,6 +192,8 @@ func times_equals(other: BigNumber) -> BigNumber:
 	
 	mantissa = result.mantissa
 	exponent = result.exponent
+	
+	updated.emit()
 	return self
 
 
@@ -197,6 +206,8 @@ func divided_by_equals(other: BigNumber) -> BigNumber:
 	
 	mantissa = result.mantissa
 	exponent = result.exponent
+	
+	updated.emit()
 	return self
 
 
@@ -237,7 +248,7 @@ func to_scientific_string(max_decimals: int = 3, max_exponents: int = 3) -> Stri
 		to_full_string(max_decimals), max_decimals, false, max_exponents)
 
 
-func to_short_string(max_digits: int = 4, max_decimals: int = 3, abbreviate: bool = true, fractional_decimals: bool = false) -> String:
+func to_short_string(max_digits: int = 4,  abbreviate: bool = true) -> String:
 	
 	return NumberUtilities.compact_format_string_number(to_full_string(), max_digits, abbreviate)
 

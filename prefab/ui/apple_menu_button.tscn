@@ -1,0 +1,57 @@
+[gd_scene load_steps=5 format=3 uid="uid://dpdk5gsrj2qjm"]
+
+[ext_resource type="Script" uid="uid://dk418b0tltu2u" path="res://scripts/ui/apple_menu_button.gd" id="1_nohal"]
+[ext_resource type="Resource" uid="uid://obqhdpp7447d" path="res://scripts/datas/apple_datas/regular_apple.tres" id="2_vue7e"]
+[ext_resource type="PackedScene" uid="uid://iixradab3o72" path="res://prefab/ui/mesh_viewer.tscn" id="3_qleav"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_yqjtg"]
+font_size = 30
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
+[node name="AppleMenuButton" type="Button"]
+custom_minimum_size = Vector2(175, 175)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+flat = true
+script = ExtResource("1_nohal")
+apple_data = ExtResource("2_vue7e")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Label" type="Label" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "x99.9K"
+label_settings = SubResource("LabelSettings_yqjtg")
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="MeshViewer" parent="." instance=ExtResource("3_qleav")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+cam_distance = 4.1

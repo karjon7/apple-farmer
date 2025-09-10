@@ -5,11 +5,11 @@ extends Control
 
 
 func _ready() -> void:
-	pass
+	GameManager.current_apple_changed.connect(_change_apple_button_mesh)
 
 
 func _process(delta: float) -> void:
-	apple_label.text = GameManager.get_apples().to_short_string()
+	apple_label.text = GameManager.get_current_apple().quantity.to_short_string()
 	
 	var money_text: String = GameManager.get_money().absolute().to_short_string() \
 		if GameManager.get_money().is_greater_than_equal_to(BigNumber.new(1000)) \
@@ -30,3 +30,7 @@ func harvest() -> void:
 
 func sell() -> void:
 	GameManager.sell_apple(BigNumber.new(1))
+
+
+func _change_apple_button_mesh() -> void:
+	%MeshViewer.mesh = GameManager.get_current_apple().mesh
