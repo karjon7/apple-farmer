@@ -10,6 +10,7 @@ signal quantity_updated
 @export var mesh: PackedScene
 
 var quantity: BigNumber = BigNumber.new(0)
+var max_quantity: BigNumber = BigNumber.new(100)
 var price: BigNumber = BigNumber.new(0) : get = _get_price
 
 

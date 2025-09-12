@@ -1,4 +1,4 @@
-extends ScrollContainer
+extends SideMenu
 
 const apple_menu_button = preload("uid://dpdk5gsrj2qjm")
 

@@ -4,6 +4,7 @@ class_name MeshViewer
 
 const TEST_ITEM = preload("res://prefab/meshes/test_item.tscn")
 
+@export var random_rotation: bool = true
 @export var rotation_on: bool = true
 @export_range(0.0, 1.0, 0.1, "or_greater") var rotations_per_second: float = 0.5
 @export_range(0.0, 5.0, 0.1, "or_greater", "suffix:m") var cam_distance: float = 3.0 : set = _set_cam_distance
@@ -14,6 +15,10 @@ const TEST_ITEM = preload("res://prefab/meshes/test_item.tscn")
 @onready var cam_pivot: Node3D = %CamPivot
 @onready var camera: Camera3D = %Camera3D
 @onready var mesh_holder: Node3D = %MeshHolder
+
+
+func _ready() -> void:
+	if random_rotation: mesh_holder.rotation_degrees.y = wrapf(randf_range(0, 360), 0, 360)
 
 
 func _process(delta: float) -> void:

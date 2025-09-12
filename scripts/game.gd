@@ -32,5 +32,5 @@ func sell() -> void:
 	GameManager.sell_apple(BigNumber.new(1))
 
 
-func _change_apple_button_mesh() -> void:
+func _change_apple_button_mesh(_new_apple_data: AppleData) -> void:
 	%MeshViewer.mesh = GameManager.get_current_apple().mesh

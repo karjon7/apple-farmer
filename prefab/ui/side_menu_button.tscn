@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://dqpdqcvh3nurr"]
+
+[ext_resource type="Script" uid="uid://bi6pw30bme0lo" path="res://scripts/ui/side_menu_button.gd" id="1_oqij0"]
+
+[node name="SideMenuButton" type="Button"]
+custom_minimum_size = Vector2(150, 150)
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 20
+text = "TEST"
+text_overrun_behavior = 3
+autowrap_mode = 3
+clip_text = true
+script = ExtResource("1_oqij0")

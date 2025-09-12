@@ -1,8 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://djveq3biqtecu"]
+[gd_scene load_steps=8 format=3 uid="uid://djveq3biqtecu"]
 
 [ext_resource type="Script" uid="uid://4i7ypyd47lgq" path="res://scripts/game.gd" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://iixradab3o72" path="res://prefab/ui/mesh_viewer.tscn" id="2_yqjtg"]
 [ext_resource type="Script" uid="uid://b0k101hdt37pb" path="res://scripts/ui/apples_menu.gd" id="3_iywne"]
+[ext_resource type="PackedScene" uid="uid://dqpdqcvh3nurr" path="res://prefab/ui/side_menu_button.tscn" id="3_lbhrr"]
+[ext_resource type="Script" uid="uid://bvmkyu84pxp78" path="res://scripts/ui/menu_holder.gd" id="4_iywne"]
+[ext_resource type="Script" uid="uid://co5hkh86b2x25" path="res://scripts/ui/side_menu.gd" id="5_p57ef"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_uwrxv"]
 font_size = 60
@@ -32,26 +35,31 @@ custom_minimum_size = Vector2(960, 0)
 layout_mode = 2
 color = Color(0.493545, 0.493546, 0.493546, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/MainScreenBG"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer/MainScreenBG"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/MainScreenBG/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 75
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 50
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/MainScreenBG/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/MainScreenBG/HBoxContainer/MarginContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer/MainScreenBG/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer/MainScreenBG/HBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="AppleLabel" type="Label" parent="HSplitContainer/MainScreenBG/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="AppleLabel" type="Label" parent="HSplitContainer/MainScreenBG/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -60,7 +68,7 @@ label_settings = SubResource("LabelSettings_uwrxv")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MoneyLabel" type="Label" parent="HSplitContainer/MainScreenBG/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="MoneyLabel" type="Label" parent="HSplitContainer/MainScreenBG/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -69,17 +77,18 @@ label_settings = SubResource("LabelSettings_uwrxv")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CenterContainer" type="CenterContainer" parent="HSplitContainer/MainScreenBG/MarginContainer/VBoxContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="HSplitContainer/MainScreenBG/HBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="AppleButton" type="Button" parent="HSplitContainer/MainScreenBG/MarginContainer/VBoxContainer/CenterContainer"]
+[node name="AppleButton" type="Button" parent="HSplitContainer/MainScreenBG/HBoxContainer/MarginContainer/VBoxContainer/CenterContainer"]
 custom_minimum_size = Vector2(750, 750)
 layout_mode = 2
 focus_mode = 0
+mouse_default_cursor_shape = 2
 flat = true
 
-[node name="MeshViewer" parent="HSplitContainer/MainScreenBG/MarginContainer/VBoxContainer/CenterContainer/AppleButton" instance=ExtResource("2_yqjtg")]
+[node name="MeshViewer" parent="HSplitContainer/MainScreenBG/HBoxContainer/MarginContainer/VBoxContainer/CenterContainer/AppleButton" instance=ExtResource("2_yqjtg")]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -92,6 +101,29 @@ grow_vertical = 2
 rotations_per_second = 0.1
 cam_distance = 2.9
 cam_offset = -0.08
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HSplitContainer/MainScreenBG/HBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/MainScreenBG/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="SideMenuButtonHolder" type="VBoxContainer" parent="HSplitContainer/MainScreenBG/HBoxContainer/VBoxContainer2/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Button" parent="HSplitContainer/MainScreenBG/HBoxContainer/VBoxContainer2/MarginContainer/SideMenuButtonHolder" instance=ExtResource("3_lbhrr")]
+layout_mode = 2
+text = "Test 1"
+
+[node name="Button2" parent="HSplitContainer/MainScreenBG/HBoxContainer/VBoxContainer2/MarginContainer/SideMenuButtonHolder" instance=ExtResource("3_lbhrr")]
+layout_mode = 2
 
 [node name="SideScreenBG" type="ColorRect" parent="HSplitContainer"]
 layout_mode = 2
@@ -110,8 +142,39 @@ theme_override_constants/margin_bottom = 25
 
 [node name="MenuHolder" type="Control" parent="HSplitContainer/SideScreenBG/MarginContainer"]
 layout_mode = 2
+script = ExtResource("4_iywne")
+
+[node name="StatsMenu" type="ScrollContainer" parent="HSplitContainer/SideScreenBG/MarginContainer/MenuHolder"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_p57ef")
+button_text = "Stats"
+metadata/_custom_type_script = "uid://co5hkh86b2x25"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/SideScreenBG/MarginContainer/MenuHolder/StatsMenu"]
+layout_mode = 2
+
+[node name="UpgradesMenu" type="ScrollContainer" parent="HSplitContainer/SideScreenBG/MarginContainer/MenuHolder"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_p57ef")
+button_text = "Upgrades"
+metadata/_custom_type_script = "uid://co5hkh86b2x25"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/SideScreenBG/MarginContainer/MenuHolder/UpgradesMenu"]
+layout_mode = 2
 
 [node name="ApplesMenu" type="ScrollContainer" parent="HSplitContainer/SideScreenBG/MarginContainer/MenuHolder"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -119,6 +182,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_iywne")
+button_text = "Apples"
+metadata/_custom_type_script = "uid://co5hkh86b2x25"
 
 [node name="GridContainer" type="GridContainer" parent="HSplitContainer/SideScreenBG/MarginContainer/MenuHolder/ApplesMenu"]
 layout_mode = 2
@@ -126,4 +191,4 @@ theme_override_constants/h_separation = 25
 theme_override_constants/v_separation = 25
 columns = 3
 
-[connection signal="pressed" from="HSplitContainer/MainScreenBG/MarginContainer/VBoxContainer/CenterContainer/AppleButton" to="." method="harvest"]
+[connection signal="pressed" from="HSplitContainer/MainScreenBG/HBoxContainer/MarginContainer/VBoxContainer/CenterContainer/AppleButton" to="." method="harvest"]
