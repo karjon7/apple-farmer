@@ -17,6 +17,7 @@ func _ready() -> void:
 		
 		side_menu_button_instance.text = child.button_text.to_upper()
 		side_menu_button_instance.pressed.connect(change_menu.bind(child.get_index()))
+		side_menu_button_instance.focus_mode = Control.FOCUS_NONE
 		side_menu_button_holder.add_child(side_menu_button_instance)
 	
 	change_menu(0)

@@ -55,5 +55,4 @@ offset_right = 0.0
 offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
-random_rotation = true
 cam_distance = 4.1

@@ -13,7 +13,7 @@ func _ready() -> void:
 func refresh_menu() -> void:
 	for child in grid_container.get_children(): child.queue_free()
 	
-	for apple: AppleData in GameManager.get_discovered_apples():
+	for apple: AppleData in GameManager.get_apple_inventory():
 		var apple_button_instance: AppleMenuButton = apple_menu_button.instantiate()
 		
 		apple_button_instance.apple_data = apple

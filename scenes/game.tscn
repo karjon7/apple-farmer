@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://djveq3biqtecu"]
+[gd_scene load_steps=11 format=3 uid="uid://djveq3biqtecu"]
 
 [ext_resource type="Script" uid="uid://4i7ypyd47lgq" path="res://scripts/game.gd" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://iixradab3o72" path="res://prefab/ui/mesh_viewer.tscn" id="2_yqjtg"]
@@ -9,6 +9,18 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_uwrxv"]
 font_size = 60
+
+[sub_resource type="LabelSettings" id="LabelSettings_p57ef"]
+font_size = 24
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p57ef"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u5sy4"]
+bg_color = Color(0.75, 0, 0, 0.501961)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [node name="Game" type="Control"]
 layout_mode = 3
@@ -101,6 +113,49 @@ grow_vertical = 2
 rotations_per_second = 0.1
 cam_distance = 2.9
 cam_offset = -0.08
+
+[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/MainScreenBG/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 200
+theme_override_constants/margin_bottom = 10
+
+[node name="StaminaBar" type="ProgressBar" parent="HSplitContainer/MainScreenBG/HBoxContainer/MarginContainer/VBoxContainer/MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+max_value = 1.0
+value = 0.5
+show_percentage = false
+
+[node name="StaminaWaitTimeLabel" type="Label" parent="HSplitContainer/MainScreenBG/HBoxContainer/MarginContainer/VBoxContainer/MarginContainer/StaminaBar"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "XX.XX"
+label_settings = SubResource("LabelSettings_p57ef")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RequiredStamina" type="ProgressBar" parent="HSplitContainer/MainScreenBG/HBoxContainer/MarginContainer/VBoxContainer/MarginContainer/StaminaBar"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxEmpty_p57ef")
+theme_override_styles/fill = SubResource("StyleBoxFlat_u5sy4")
+max_value = 1.0
+value = 0.25
+show_percentage = false
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="HSplitContainer/MainScreenBG/HBoxContainer"]
 layout_mode = 2

@@ -44,7 +44,7 @@ func _init(x: Variant, y: int = 0) -> void:
 			if decimal_start_pos: string = string.erase(decimal_start_pos)
 			
 			string = string[0] + "." + string.substr(1)
-			if is_negative: string = "-" + string
+			if negative: string = "-" + string
 			
 			if not string.is_valid_float(): 
 				printerr("Incorrect String passed to BigNumber")
@@ -78,6 +78,14 @@ func normalize() -> void:
 		mantissa *= 10
 		exponent -= 1
 	
+	#Snap away floating-point noise
+	#Round to ~15 significant digits
+	mantissa = round(mantissa * 1e15) / 1e15
+	
+	#If it’s extremely close to an integer, snap fully
+	if abs(mantissa - round(mantissa)) < 1e-12:
+		mantissa = float(round(mantissa))
+	
 	mantissa *= current_sign
 
 
@@ -86,7 +94,7 @@ func print_big_number() -> void:
 
 
 #Operations
-
+#FIXME: FLOATING POINT PRECISION
 static func add(a: BigNumber, b: BigNumber) -> BigNumber:
 	var result: BigNumber = BigNumber.new(0)
 	var diff: int = a.exponent - b.exponent
@@ -133,6 +141,12 @@ static func equals(a: BigNumber, b: BigNumber) -> bool:
 
 
 static func less_than(a: BigNumber, b: BigNumber) -> bool:
+	var sign_a: float = signf(a.mantissa)
+	var sign_b: float = signf(b.mantissa)
+	
+	#If signs dif obvi positive greater than negative
+	if sign_a != sign_b: return sign_a < sign_b
+	
 	#If exponents are the same just compare the mantissa
 	if a.exponent == b.exponent: return a.mantissa < b.mantissa 
 	
@@ -144,6 +158,12 @@ static func less_than_equal(a: BigNumber, b: BigNumber) -> bool:
 
 
 static func greater_than(a: BigNumber, b: BigNumber) -> bool:
+	var sign_a: float = signf(a.mantissa)
+	var sign_b: float = signf(b.mantissa)
+	
+	#If signs dif obvi positive greater than negative
+	if sign_a != sign_b: return sign_a > sign_b
+	
 	#If exponents are the same just compare the mantissa
 	if a.exponent == b.exponent: return a.mantissa > b.mantissa 
 	
@@ -152,6 +172,23 @@ static func greater_than(a: BigNumber, b: BigNumber) -> bool:
 
 static func greater_than_equal(a: BigNumber, b: BigNumber) -> bool:
 	return greater_than(a, b) or equals(a, b)
+
+
+static func big_number_clamp(value: BigNumber, min: BigNumber, max: BigNumber) -> BigNumber:
+	var result: BigNumber = BigNumber.new(value)
+	
+	if value.is_less_than(min): result = BigNumber.new(min)
+	if value.is_greater_than(max): result = BigNumber.new(max)
+	
+	return result
+
+
+static func big_number_max(a: BigNumber, b: BigNumber) -> BigNumber:
+	return BigNumber.new(a) if a.is_greater_than_equal_to(b) else BigNumber.new(b)
+
+
+static func big_number_min(a: BigNumber, b: BigNumber) -> BigNumber:
+	return BigNumber.new(a) if a.is_less_than_equal_to(b) else BigNumber.new(b)
 
 
 func plus(other: BigNumber) -> BigNumber:
