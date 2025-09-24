@@ -20,7 +20,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	handle_harvest_stamina(delta)
+	_handle_harvest_stamina(delta)
 
 
 #USERDATA HELPER FUNCTIONS
@@ -81,7 +81,7 @@ func sell_apple(amount: BigNumber) -> void:
 
 #HANDLERS
 
-func handle_harvest_stamina(delta: float) -> void:
+func _handle_harvest_stamina(delta: float) -> void:
 	if user_data.harvest_stamina == 1.0: return
 	if not harvest_stamina_wait_timer.is_stopped(): return
 	

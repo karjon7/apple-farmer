@@ -54,7 +54,7 @@ size = 2.905
 
 [node name="MeshHolder" type="Node3D" parent="SubViewport/3DWorld"]
 unique_name_in_owner = true
-transform = Transform3D(-0.938659, 0, -0.344845, 0, 1, 0, 0.344845, 0, -0.938659, 0, 0, 0)
+transform = Transform3D(0.962045, 0, -0.272887, 0, 1, 0, 0.272887, 0, 0.962045, 0, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewport/3DWorld/MeshHolder"]
 mesh = SubResource("BoxMesh_wb5as")

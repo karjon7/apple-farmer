@@ -246,4 +246,5 @@ theme_override_constants/h_separation = 25
 theme_override_constants/v_separation = 25
 columns = 3
 
-[connection signal="pressed" from="HSplitContainer/MainScreenBG/HBoxContainer/MarginContainer/VBoxContainer/CenterContainer/AppleButton" to="." method="harvest"]
+[connection signal="button_down" from="HSplitContainer/MainScreenBG/HBoxContainer/MarginContainer/VBoxContainer/CenterContainer/AppleButton" to="." method="_press_apple_button"]
+[connection signal="button_up" from="HSplitContainer/MainScreenBG/HBoxContainer/MarginContainer/VBoxContainer/CenterContainer/AppleButton" to="." method="_release_apple_button"]
